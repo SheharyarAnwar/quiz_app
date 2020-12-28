@@ -1,10 +1,13 @@
 import { Box, Grid, TextField } from "@material-ui/core";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./styles";
 import Dropdown from "../../Components/Dropdown/index";
 import { ReactComponent as Arrow } from "../../Assets/arrow.svg";
 import { ReactComponent as Logo } from "../../Assets/logo.svg";
+import { ReactComponent as Left } from "../../Assets/left.svg";
+import { ReactComponent as Right } from "../../Assets/right.svg";
 import { useHistory } from "react-router-dom";
+
 interface PushedStateParams {
   difficulty: string;
   topic: string;
@@ -18,6 +21,26 @@ const Index: React.FC<{}> = () => {
   const [difficulty, setDifficulty] = useState<string>();
   const [topic, setTopic] = useState<string>();
   const [name, setName] = useState<string>();
+
+  const logoAnimationHandler = () => {
+    const circleArray = Array.from(document.getElementsByClassName("st0"));
+    console.log(circleArray);
+    circleArray.forEach((elem, i) => {
+      elem.animate(
+        [
+          { positions: "absolute", zIndex: 10, transform: "rotate(-40deg)" },
+          { positions: "absolute", zIndex: 10, transform: "rotate(0deg)" },
+        ],
+        {
+          duration: 200,
+          delay: i * 200,
+        }
+      );
+    });
+  };
+  useEffect(() => {
+    logoAnimationHandler();
+  }, []);
   const onNameChanged = (e: any) => {
     setName(e.target.value);
   };
@@ -42,11 +65,11 @@ const Index: React.FC<{}> = () => {
   return (
     <form onSubmit={formSubmitHandler}>
       <Box className={classes.root}>
-        <Grid container justify="center">
+        <Left className={classes.leftBezier} />
+        <Right className={classes.rightBezier} />
+        <Grid container>
           <Grid container justify="center" item xs={12}>
-            <Grid item>
-              <Logo ref={ref} width={80} />
-            </Grid>
+            <Logo ref={ref} width={180} />
           </Grid>
           <Grid
             item

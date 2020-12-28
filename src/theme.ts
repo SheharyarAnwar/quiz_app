@@ -86,5 +86,22 @@ theme.typography.h6 = {
     fontSize: "calc( 0.8em + 2vw)",
   },
 };
-
+theme.typography.subtitle1 = {
+  fontFamily: "Quicksand,sans-serif",
+  textAlign: "center",
+  fontWeight: 700,
+  color: theme.palette.purple,
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "calc( 0.6em + 0.7vw)",
+  },
+};
+theme.typography.body2 = {
+  fontFamily: "Quicksand,sans-serif",
+  lineHeight: 1,
+  fontWeight: 700,
+  color: theme.palette.purple,
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "calc( 0.6em + 0.5vw)",
+  },
+};
 export default theme;
