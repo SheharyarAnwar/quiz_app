@@ -17,7 +17,7 @@ const Index: React.FC<QuizModalProps> = ({ questions }) => {
   const [pickedAnswer, setPickedAnswer] = useState<string>();
   const [result, setResult] = useState<number>(0);
   const [testComplete, setTestComplete] = useState<boolean>(false);
-  const [transition, setTransition] = useState<boolean>(false);
+
   const classes = styles();
   useEffect(() => {
     if (firstUpdate.current) {
@@ -40,7 +40,6 @@ const Index: React.FC<QuizModalProps> = ({ questions }) => {
   }, [pickedAnswer]);
   const handleAnswerPicked = (answer: string) => {
     setPickedAnswer(answer);
-    setTransition((prev) => !prev);
   };
   const shuffleArray = (correct: string, incorrect: Array<string>) => {
     const tempArray: Array<string> = new Array(incorrect.length + 1).fill("");
