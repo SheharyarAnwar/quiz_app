@@ -12,3 +12,23 @@ h5,
 h6 {
   transition: font-size 0.8s linear;
 }
+.anim-enter {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 1s ease;
+}
+
+.anim-enter-active {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.anim-exit {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 1s ease;
+}
+.anim-exit-active {
+  transform: scale(0);
+  opacity: 0;
+}

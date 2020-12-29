@@ -7,12 +7,7 @@ import { ReactComponent as Logo } from "../../Assets/logo.svg";
 import { ReactComponent as Left } from "../../Assets/left.svg";
 import { ReactComponent as Right } from "../../Assets/right.svg";
 import { useHistory } from "react-router-dom";
-
-interface PushedStateParams {
-  difficulty: string;
-  topic: string;
-  name: string;
-}
+import { PushedStateParams } from "../../Types/index";
 
 const Index: React.FC<{}> = () => {
   const classes = styles();

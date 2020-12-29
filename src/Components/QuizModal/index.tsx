@@ -1,25 +1,18 @@
 import { Box, Grid, Typography } from "@material-ui/core";
+import { CSSTransition, Transition } from "react-transition-group";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles";
 import { Base64 } from "js-base64";
 import SingleOption from "./SingleOption/index";
-interface Questions {
-  question: string;
-  correct_answer: string;
-  incorrect_answers: Array<string>;
-  category: string;
-  difficulty: string;
-  type: string;
-}
-interface Props {
-  questions: Array<Questions>;
-}
-const Index: React.FC<Props> = ({ questions }) => {
+import { QuizModalProps } from "../../Types/index";
+
+const Index: React.FC<QuizModalProps> = ({ questions }) => {
   const firstUpdate = useRef(true);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [pickedAnswer, setPickedAnswer] = useState<string>();
   const [result, setResult] = useState<number>(0);
   const [testComplete, setTestComplete] = useState<boolean>(false);
+  const [transition, setTransition] = useState<boolean>(false);
   const classes = styles();
   useEffect(() => {
     if (firstUpdate.current) {
@@ -42,6 +35,7 @@ const Index: React.FC<Props> = ({ questions }) => {
   }, [pickedAnswer]);
   const handleAnswerPicked = (answer: string) => {
     setPickedAnswer(answer);
+    setTransition((prev) => !prev);
   };
   const shuffleArray = (correct: string, incorrect: Array<string>) => {
     const tempArray: Array<string> = new Array(incorrect.length + 1).fill("");
@@ -89,35 +83,40 @@ const Index: React.FC<Props> = ({ questions }) => {
   );
   return (
     <>
-      <Grid
-        xs={10}
-        sm={6}
-        md={5}
-        lg={4}
-        item
-        container
-        className={classes.root}
-        justify="center"
-        alignItems="center"
-      >
-        {!testComplete &&
-          renderedQuestions &&
-          renderedQuestions[currentQuestion]}
-        {testComplete && (
-          <Box
-            justifyContent="center"
-            alignItems="center"
-            display="flex"
-            flexDirection="column"
-            style={{ width: "100%", height: "40vh" }}
-          >
-            <Typography variant="subtitle1">Result:</Typography>
-            <Typography variant="body2">
-              {result}/{questions.length}
-            </Typography>
-          </Box>
-        )}
-      </Grid>
+      <CSSTransition in={transition} timeout={300} classNames={"anim"}>
+        <Grid
+          xs={10}
+          sm={6}
+          md={5}
+          lg={4}
+          item
+          container
+          className={classes.root}
+          justify="center"
+          alignItems="center"
+        >
+          {!testComplete &&
+            renderedQuestions &&
+            renderedQuestions[currentQuestion]}
+
+          {testComplete && (
+            <Box
+              justifyContent="space-around"
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              style={{ width: "100%", height: "40vh" }}
+            >
+              <Typography color="primary" variant="h6">
+                Result:
+              </Typography>
+              <Typography variant="body1">
+                {result}/{questions.length}
+              </Typography>
+            </Box>
+          )}
+        </Grid>
+      </CSSTransition>
     </>
   );
 };

@@ -2,17 +2,11 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import QuizModal from "../../Components/QuizModal/index";
+import { Questions } from "../../Types/index";
 interface Props {
   history: any;
 }
-interface Questions {
-  question: string;
-  correct_answer: string;
-  incorrect_answers: Array<string>;
-  category: string;
-  difficulty: string;
-  type: string;
-}
+
 const Index: React.FC<Props> = ({ history }) => {
   const classes = styles();
   const [name, setName] = useState<string>();
@@ -33,8 +27,9 @@ const Index: React.FC<Props> = ({ history }) => {
       const { name, topic, difficulty } = history.location.state;
       setName(name);
       const difficultyParam = difficulty ? `&difficulty=${difficulty}` : "";
-      const topicParam = topic ? `&category=${topic}` : "";
+      const topicParam = topic && topic !== "any" ? `&category=${topic}` : "";
       const url = `https://opentdb.com/api.php?amount=10&type=multiple${difficultyParam}${topicParam}&encode=base64`;
+      console.log(url);
       fetchQuestions(url);
     }
   }, []);

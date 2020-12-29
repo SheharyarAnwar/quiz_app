@@ -1,22 +1,19 @@
 import { Grid, TextField } from "@material-ui/core";
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-interface Options {
-  title: string;
-  value: number | string;
-}
-interface Props {
-  data: Array<Options> | Array<string>;
-  label: string;
-  selectionChangeHandler: (label: string, value: any) => void;
-}
+import { Options, DropdownProps } from "../../Types/index";
+
 const isOptions = (data: Array<any>): boolean => {
   if (typeof data[0] === "object") {
     return true;
   }
   return false;
 };
-const Index: React.FC<Props> = ({ data, label, selectionChangeHandler }) => {
+const Index: React.FC<DropdownProps> = ({
+  data,
+  label,
+  selectionChangeHandler,
+}) => {
   const onSelectionChange = (e: React.ChangeEvent<{}>, value: any) => {
     selectionChangeHandler(label, value);
   };

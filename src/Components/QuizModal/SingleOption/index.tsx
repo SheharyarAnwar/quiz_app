@@ -1,11 +1,9 @@
 import { Box, Grid, Typography } from "@material-ui/core";
 import React, { useRef } from "react";
 import styles from "../styles";
-interface Props {
-  option: string;
-  handleAnswerPicked: (answer: string) => void;
-}
-const Index: React.FC<Props> = ({ option, handleAnswerPicked }) => {
+import { SingleOptionProps } from "../../../Types/index";
+
+const Index: React.FC<SingleOptionProps> = ({ option, handleAnswerPicked }) => {
   const classes = styles();
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);

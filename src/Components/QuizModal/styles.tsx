@@ -29,8 +29,8 @@ const style = makeStyles((theme) => ({
   radioOption: {
     position: "relative",
     cursor: "pointer",
-    width: "25px",
-    height: "25px",
+    minWidth: "25px",
+    minHeight: "25px",
     borderRadius: "50%",
     marginRight: "5%",
     backgroundColor: theme.palette.blue,
