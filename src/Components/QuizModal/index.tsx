@@ -1,5 +1,10 @@
 import { Box, Grid, Typography } from "@material-ui/core";
-import { CSSTransition, Transition } from "react-transition-group";
+import {
+  CSSTransition,
+  SwitchTransition,
+  Transition,
+  TransitionGroup,
+} from "react-transition-group";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles";
 import { Base64 } from "js-base64";
@@ -83,40 +88,42 @@ const Index: React.FC<QuizModalProps> = ({ questions }) => {
   );
   return (
     <>
-      <CSSTransition in={transition} timeout={300} classNames={"anim"}>
-        <Grid
-          xs={10}
-          sm={6}
-          md={5}
-          lg={4}
-          item
-          container
-          className={classes.root}
-          justify="center"
-          alignItems="center"
-        >
-          {!testComplete &&
-            renderedQuestions &&
-            renderedQuestions[currentQuestion]}
+      <TransitionGroup component={null}>
+        <CSSTransition key={currentQuestion} timeout={1000} classNames={"anim"}>
+          <Grid
+            xs={10}
+            sm={6}
+            md={5}
+            lg={4}
+            item
+            container
+            className={classes.root}
+            justify="center"
+            alignItems="center"
+          >
+            {!testComplete &&
+              renderedQuestions &&
+              renderedQuestions[currentQuestion]}
 
-          {testComplete && (
-            <Box
-              justifyContent="space-around"
-              alignItems="center"
-              display="flex"
-              flexDirection="column"
-              style={{ width: "100%", height: "40vh" }}
-            >
-              <Typography color="primary" variant="h6">
-                Result:
-              </Typography>
-              <Typography variant="body1">
-                {result}/{questions.length}
-              </Typography>
-            </Box>
-          )}
-        </Grid>
-      </CSSTransition>
+            {testComplete && (
+              <Box
+                justifyContent="space-around"
+                alignItems="center"
+                display="flex"
+                flexDirection="column"
+                style={{ width: "100%", height: "40vh" }}
+              >
+                <Typography color="primary" variant="h6">
+                  Result:
+                </Typography>
+                <Typography variant="body1">
+                  {result}/{questions.length}
+                </Typography>
+              </Box>
+            )}
+          </Grid>
+        </CSSTransition>
+      </TransitionGroup>
     </>
   );
 };

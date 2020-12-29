@@ -27,8 +27,9 @@ const style = makeStyles((theme) => ({
     backgroundColor: theme.palette.purple,
   },
   radioOption: {
-    position: "relative",
     cursor: "pointer",
+    width: "25px",
+    height: "25px",
     minWidth: "25px",
     minHeight: "25px",
     borderRadius: "50%",
