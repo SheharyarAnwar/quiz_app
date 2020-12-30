@@ -87,32 +87,26 @@ self.addEventListener("message", (event) => {
 // });
 
 // Any other custom service worker logic can go here.
-function update(request: Request) {
+async function update(request: Request) {
   const cache = new Cache();
-  return fetch(request.url).then(
-    (response) =>
-      cache
-        .put(request, response) // we can put response in cache
-        .then(() => response) // resolve promise with the Response object
-  );
+  const response = await fetch(request.url);
+  await cache.put(request, response); // we can put response in cache
+  return response;
 }
-function refresh(response: Response) {
-  return response
-    .json() // read and parse JSON response
-    .then((jsonResponse) => {
-      self.clients.matchAll().then((clients) => {
-        clients.forEach((client) => {
-          // report and send new data to client
-          client.postMessage(
-            JSON.stringify({
-              type: response.url,
-              data: jsonResponse.data,
-            })
-          );
-        });
-      });
-      return jsonResponse.data; // resolve promise with new data
+async function refresh(response: Response) {
+  const jsonResponse = await response.json(); // read and parse JSON response
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      // report and send new data to client
+      client.postMessage(
+        JSON.stringify({
+          type: response.url,
+          data: jsonResponse.data,
+        })
+      );
     });
+  });
+  return jsonResponse.data;
 }
 self.addEventListener("fetch", (event) => {
   if (event.request.url.includes("/opentdb.com/api.php/")) {

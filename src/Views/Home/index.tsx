@@ -19,7 +19,7 @@ const Index: React.FC<{}> = () => {
 
   const logoAnimationHandler = () => {
     const circleArray = Array.from(document.getElementsByClassName("st0"));
-    console.log(circleArray);
+
     circleArray.forEach((elem, i) => {
       elem.animate(
         [
