@@ -109,10 +109,12 @@ async function refresh(response: Response) {
   return jsonResponse.data;
 }
 self.addEventListener("fetch", (event) => {
-  if (event.request.url.includes("/opentdb.com/api.php/")) {
+  if (event.request.url.includes("/opentdb.com/api.php")) {
+    console.log("includes");
     event.respondWith(caches.match(event.request) as Promise<Response>);
     event.waitUntil(update(event.request).then(refresh));
   } else {
+    console.log("doesnt include");
     // response to static files requests, Cache-First strategy
   }
 });
