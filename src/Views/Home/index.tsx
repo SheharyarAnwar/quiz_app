@@ -8,7 +8,7 @@ import { ReactComponent as Left } from "../../Assets/left.svg";
 import { ReactComponent as Right } from "../../Assets/right.svg";
 import { useHistory } from "react-router-dom";
 import { PushedStateParams } from "../../Types/index";
-
+import { configureNotifications } from "../../Services/firebaseService";
 const Index: React.FC<{}> = () => {
   const classes = styles();
   const ref: any = useRef();
@@ -19,7 +19,7 @@ const Index: React.FC<{}> = () => {
 
   const logoAnimationHandler = () => {
     const circleArray = Array.from(document.getElementsByClassName("st0"));
-
+    configureNotifications();
     circleArray.forEach((elem, i) => {
       elem.animate(
         [

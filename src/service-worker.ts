@@ -86,33 +86,21 @@ self.addEventListener("message", (event) => {
 //   );
 // });
 
-// Any other custom service worker logic can go here.
-async function update(request: Request) {
-  const cache = new Cache();
-  const response = await fetch(request.url);
-  await cache.put(request, response); // we can put response in cache
-  return response;
-}
-async function refresh(response: Response) {
-  const jsonResponse = await response.json(); // read and parse JSON response
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => {
-      // report and send new data to client
-      client.postMessage(
-        JSON.stringify({
-          type: response.url,
-          data: jsonResponse.data,
-        })
-      );
-    });
-  });
-  return jsonResponse.data;
-}
 self.addEventListener("fetch", (event) => {
   if (event.request.url.includes("/opentdb.com/api.php")) {
-    console.log("includes");
-    event.respondWith(caches.match(event.request) as Promise<Response>);
-    event.waitUntil(update(event.request).then(refresh));
+    event.respondWith(
+      caches.open("mysite-dynamic").then(function (cache) {
+        return cache.match(event.request).then(function (response) {
+          return (
+            response ||
+            fetch(event.request).then(function (response) {
+              cache.put(event.request, response.clone());
+              return response;
+            })
+          );
+        });
+      })
+    );
   } else {
     console.log("doesnt include");
     // response to static files requests, Cache-First strategy
